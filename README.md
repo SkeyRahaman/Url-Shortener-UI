@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+ # 🔗 URL Shortener Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ A modern, responsive React-based URL shortener dashboard featuring a sleek UI, dynamic theme switching (Dark/Light mode), and a modular component architecture.
 
-## Available Scripts
+ ## ✨ Features
 
-In the project directory, you can run:
+ * Dual Themes: Seamlessly switch between a high-contrast Dark Mode and a clean Light Mode.
+ * Dynamic Navigation: Custom-built sidebar and header navigation system (Dashboard, About, Profile, and Settings).
+ * Responsive Design: Fully optimized for mobile, tablet, and desktop views using Bootstrap 5.
+ * Modular Architecture:
+     * Broken down into reusable sub-components for better maintainability.
+     * State-driven UI updates for a smooth user experience.
+     * Prop-drilling for consistent theme application across all views.
+ * Modern UI Components:
+     * Interactive URL input blocks with "glow" effects.
+     * Detailed link listing with action buttons.
+     * Comprehensive user Profile and Settings management.
 
-### `npm start`
+ ## 🚀 Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ * Frontend: React.js (Class and Functional Components)
+ * Styling: Bootstrap 5, Bootstrap Icons, and Custom CSS-in-JS
+ * Icons: Bootstrap Icons
+ * Avatars: UI Avatars API
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📂 Project Structure
 
-### `npm test`
+````text
+src/
+├── components/
+│   ├── Headers.js      # Mobile and Desktop header components
+│   ├── Sidebar.js      # Navigation sidebar with theme toggle
+│   ├── NavBar.js       # Main Layout Wrapper (Manages global state)
+│   ├── Dashboard.js    # Main stats and URL input view
+│   ├── About.js        # Project information and features
+│   ├── Profile.js      # User account and security settings
+│   └── Settings.js     # API keys and general preferences
+├── App.js              # Root component & Page Routing logic
+└── index.js            # Entry point
+```
+````
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+ ## 🛠️ Installation & Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ 1. Clone the repository:
+ `bash
+ git clone https://github.com/your-username/url-shortener-react.git
+ `
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+ 2. Navigate to the project folder:
+ `bash
+ cd url-shortener-react
+ `
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+ 3. Install dependencies:
+ `bash
+ npm install
+ `
 
-### `npm run eject`
+ 4. Start the development server:
+ `bash
+ npm start
+ `
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+ ## 💡 Key Implementation Details
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ ### Theme Management
+ The theme state is managed centrally in NavBar.js and passed down to all children via React.cloneElement. This ensures that whenever the user toggles the theme, every component—from the Sidebar to the Profile cards—updates instantly with the correct colors, borders, and shadows.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+ ### Navigation Logic
+ Instead of a heavy routing library, this project uses a lightweight state-based navigation system in App.js. This allows for fast transitions and keeps the application logic simple, stable, and easy to debug.
