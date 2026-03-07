@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NavBar from './components/NavBar';
 import Dashboard from './components/Dashboard';
 import About from './components/About';
-import Profile from './components/Profile';
+import Register from './components/Register';
 import Settings from './components/Settings';
 import './App.css';
 
@@ -29,7 +29,7 @@ class App extends Component {
     } else if (currentPage === 'about') {
       activeComponent = <About />;
     } else if (currentPage === 'profile') {
-      activeComponent = <Profile />;
+      activeComponent = <Register />;
     } else if (currentPage === 'settings') 
       activeComponent = <Settings />;
 
