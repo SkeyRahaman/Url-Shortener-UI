@@ -73,7 +73,10 @@ const NotificationSettings = ({ isDarkMode, textColor, cardBg, borderColor }) =>
 );
 
 // --- Main Profile Page ---
-const Profile = ({ isDarkMode }) => {
+const Profile = ({ isDarkMode, isLogin }) => {
+    if (! isLogin){
+        console.log("Redirect to '/'");
+    }
     const textColor = isDarkMode ? 'text-white' : 'text-dark';
     const cardBg = isDarkMode ? '#212530' : '#ffffff';
     const borderColor = isDarkMode ? '#3a3f50' : '#dee2e6';

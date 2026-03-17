@@ -125,7 +125,7 @@ const LoginForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
 };
 
 // --- Main App Component ---
-const App = ({ isDarkMode = true }) => {
+const LoginPage = ({ isDarkMode = true }) => {
     const textColor = isDarkMode ? '#ffffff' : '#212529';
     const cardBg = isDarkMode ? '#1a1d24' : '#ffffff';
     const borderColor = isDarkMode ? '#2d333f' : '#e9ecef';
@@ -217,4 +217,4 @@ const App = ({ isDarkMode = true }) => {
     );
 };
 
-export default App;
+export default LoginPage;

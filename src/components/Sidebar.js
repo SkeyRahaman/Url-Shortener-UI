@@ -1,14 +1,31 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
-const Sidebar = ({ isOpen, isDarkMode, toggleTheme, onNavigate, activePage }) => {
+const LoginLogoutButton = ({isLogin}) => {
+    if (isLogin){
+        return (
+            <Link to="/" className="nav-link rounded-3 text-danger">
+                            <i className="bi bi-box-arrow-right me-2"></i> Logout
+            </Link>
+        )
+    } else {
+        return (
+            <Link to="/Register" className="nav-link rounded-3 text-danger">
+                            <i className="bi bi-box-arrow-right me-2"></i> Register
+            </Link>
+        )
+    }
+}
+
+const Sidebar = ({ isOpen, isDarkMode, toggleTheme, isLogin }) => {
+    const location = useLocation();
+    
+    // Helper to check if the link is active based on the current URL
+    const isActive = (path) => location.pathname === path;
+
     const textColor = isDarkMode ? 'text-white' : 'text-dark';
     const sidebarBg = isDarkMode ? '#212530' : '#ffffff';
     const sidebarBorder = isDarkMode ? '#495057' : '#dee2e6';
-
-    const handleLinkClick = (e, page) => {
-        e.preventDefault();
-        onNavigate(page);
-    };
 
     return (
         <div 
@@ -32,44 +49,39 @@ const Sidebar = ({ isOpen, isDarkMode, toggleTheme, onNavigate, activePage }) =>
 
             <div className="offcanvas-body d-flex flex-column h-100 p-0 p-lg-2 mt-lg-0 mt-3">
                 {/* Desktop Logo (Hidden on Mobile) */}
-                <a href="/" className={`d-none d-lg-flex align-items-center mb-4 text-decoration-none ${textColor}`}>
+                <Link to="/" className={`d-none d-lg-flex align-items-center mb-4 text-decoration-none ${textColor}`}>
                     <i className="bi bi-link-45deg text-primary fs-3 me-2"></i>
                     <span className="fs-5 fw-bold">URL Shortener</span>
-                </a>
+                </Link>
 
                 {/* Navigation Links */}
                 <ul className="nav nav-pills flex-column mb-auto gap-2">
                     <li className="nav-item">
-                        <a 
-                            href="/" 
-                            className={`nav-link rounded-3 ${activePage === 'dashboard' ? 'active' : ''}`}
-                            onClick={(e) => handleLinkClick(e, 'dashboard')}
+                        <Link 
+                            to="/" 
+                            className={`nav-link rounded-3 ${isActive('/dashboard') ? 'active' : ''}`}
                         >
                             <i className="bi bi-house-door me-2"></i> Dashboard
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
-                        <a 
-                            href="/" 
-                            className={`nav-link rounded-3 ${activePage === 'about' ? 'active' : ''}`}
-                            onClick={(e) => handleLinkClick(e, 'about')}
+                        <Link 
+                            to="/about" 
+                            className={`nav-link rounded-3 ${isActive('/about') ? 'active' : ''}`}
                         >
                             <i className="bi bi-info-circle me-2"></i> About
-                        </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
-                        <a 
-                            href="/" 
-                            className={`nav-link rounded-3 ${activePage === 'profile' ? 'active' : ''}`}
-                            onClick={(e) => handleLinkClick(e, 'profile')}
+                        <Link 
+                            to="/profile" 
+                            className={`nav-link rounded-3 ${isActive('/profile') ? 'active' : ''}`}
                         >
                             <i className="bi bi-person me-2"></i> Profile
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="/" className="nav-link rounded-3 text-danger">
-                            <i className="bi bi-box-arrow-right me-2"></i> Logout
-                        </a>
+                        <LoginLogoutButton isLogin={isLogin} />
                     </li>
                 </ul>
 

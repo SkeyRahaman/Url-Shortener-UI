@@ -2,7 +2,11 @@ import React from "react";
 import UrlBlock from "./UrlBlock";
 import UrlList from "./UrlList";
 
-const Dashboard = ({ isDarkMode }) => {
+import Register from "./Register"
+import LoginPage from "./Login"
+
+const Dashboard = ({ isDarkMode, isLogin }) => {
+    if (isLogin) {
     return (
         <>
             <UrlBlock isDarkMode={isDarkMode} />
@@ -15,6 +19,12 @@ const Dashboard = ({ isDarkMode }) => {
             </div>
         </>
     );
+} else {
+    return (
+        <>
+        <LoginPage />
+        </>
+    )}
 };
 
 export default Dashboard;
