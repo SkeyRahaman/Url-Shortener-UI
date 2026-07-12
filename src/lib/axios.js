@@ -3,7 +3,7 @@ import axios from 'axios';
 // 1. Create the instance
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  timeout: 10000,
+  timeout: 60000, // 60s timeout to allow Render free tier to wake up from sleep
   headers: {
     'Content-Type': 'application/json',
   },
