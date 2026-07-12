@@ -19,7 +19,7 @@ const SocialButton = ({ icon, text, providerColor, isDarkMode, borderColor }) =>
             <i className={`bi ${icon}`} style={{ fontSize: '1.2rem' }}></i>
             <span className="fw-semibold small">{text}</span>
             <span className="badge bg-secondary-subtle text-secondary border border-secondary-subtle ms-auto text-uppercase fw-bold" style={{ fontSize: '0.6rem' }}>
-                Soon
+                Coming Soon
             </span>
         </button>
     );
