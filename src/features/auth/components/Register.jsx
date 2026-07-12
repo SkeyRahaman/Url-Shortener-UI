@@ -205,16 +205,16 @@ const Register = ({ isDarkMode = true }) => {
                 </div>
 
                 <div className="row g-0 align-items-stretch">
-                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3">
+                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3 order-1 order-md-1">
+                        <RegisterForm isDarkMode={isDarkMode} textColor={textColor} borderColor={borderColor} mutedText={mutedText} />
+                    </div>
+                    <div className="col-12 col-md-2 position-relative py-3 py-md-0 order-2 order-md-2">
+                        <Divider isDarkMode={isDarkMode} mutedText={mutedText} />
+                    </div>
+                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3 order-3 order-md-3">
                         <SocialButton icon="bi-google" text="Sign up with Google" providerColor="#ea4335" isDarkMode={isDarkMode} borderColor={borderColor} />
                         <SocialButton icon="bi-facebook" text="Sign up with Facebook" providerColor="#1877f2" isDarkMode={isDarkMode} borderColor={borderColor} />
                         <SocialButton icon="bi-apple" text="Sign up with Apple" providerColor={isDarkMode ? "#fff" : "#000"} isDarkMode={isDarkMode} borderColor={borderColor} />
-                    </div>
-                    <div className="col-12 col-md-2 position-relative py-3 py-md-0">
-                        <Divider isDarkMode={isDarkMode} mutedText={mutedText} />
-                    </div>
-                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3">
-                        <RegisterForm isDarkMode={isDarkMode} textColor={textColor} borderColor={borderColor} mutedText={mutedText} />
                     </div>
                 </div>
 

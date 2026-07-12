@@ -167,16 +167,16 @@ const LoginPage = ({ isDarkMode = true }) => {
                     <p className="small px-4" style={{ color: mutedText }}>Enter your credentials to access your dashboard</p>
                 </div>
                 <div className="row g-0 align-items-stretch">
-                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3">
+                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3 order-1 order-md-1">
+                        <LoginForm isDarkMode={isDarkMode} textColor={textColor} borderColor={borderColor} />
+                    </div>
+                    <div className="col-12 col-md-2 position-relative py-3 py-md-0 order-2 order-md-2">
+                        <Divider isDarkMode={isDarkMode} mutedText={mutedText} />
+                    </div>
+                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3 order-3 order-md-3">
                         <SocialButton icon="bi-google" text="Continue with Google" providerColor="#ea4335" isDarkMode={isDarkMode} borderColor={borderColor} />
                         <SocialButton icon="bi-facebook" text="Continue with Facebook" providerColor="#1877f2" isDarkMode={isDarkMode} borderColor={borderColor} />
                         <SocialButton icon="bi-apple" text="Continue with Apple" providerColor={isDarkMode ? "#fff" : "#000"} isDarkMode={isDarkMode} borderColor={borderColor} />
-                    </div>
-                    <div className="col-12 col-md-2 position-relative py-3 py-md-0">
-                        <Divider isDarkMode={isDarkMode} mutedText={mutedText} />
-                    </div>
-                    <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3">
-                        <LoginForm isDarkMode={isDarkMode} textColor={textColor} borderColor={borderColor} />
                     </div>
                 </div>
                 <div className="text-center mt-5 pt-3 border-top" style={{ borderColor: borderColor }}>
