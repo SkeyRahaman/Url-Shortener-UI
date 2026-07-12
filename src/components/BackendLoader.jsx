@@ -19,9 +19,9 @@ const BackendLoader = ({ onReady }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com';
-  // Remove trailing slashes to avoid double slashes like //health
+  // Remove trailing slashes to avoid double slashes like //docs
   const cleanApiUrl = apiUrl.replace(/\/+$/, '');
-  const healthUrl = `${cleanApiUrl}/health`;
+  const healthUrl = `${cleanApiUrl}/docs`;
 
   // 1. Countdown timer
   useEffect(() => {
