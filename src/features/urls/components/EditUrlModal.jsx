@@ -111,14 +111,19 @@ const EditUrlModal = ({ isDarkMode, urlItem, onSave, onClose }) => {
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="small fw-bold mb-1" style={{ color: textColor }}>Custom Short Code</label>
+                        <div className="d-flex align-items-center justify-content-between mb-1">
+                            <label className="small fw-bold mb-0" style={{ color: textColor }}>Custom Short Code</label>
+                            <span className="badge bg-secondary-subtle text-secondary border border-secondary-subtle text-uppercase fw-bold" style={{ fontSize: '0.6rem' }}>
+                                Coming Soon
+                            </span>
+                        </div>
                         <input
                             type="text"
                             className="form-control shadow-none"
                             value={customShort}
-                            onChange={e => setCustomShort(e.target.value)}
-                            style={inputStyle}
-                            placeholder="e.g. my-link"
+                            disabled
+                            style={{ ...inputStyle, opacity: 0.6, cursor: 'not-allowed' }}
+                            placeholder="Coming Soon"
                         />
                     </div>
 
