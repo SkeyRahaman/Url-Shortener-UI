@@ -10,10 +10,12 @@ import About from './pages/About';
 import Profile from "./pages/Profile";
 import Settings from './pages/Settings';
 import Register from './features/auth/components/Register';
+import BackendLoader from "./components/BackendLoader";
 
 function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isBackendHealthy, setIsBackendHealthy] = useState(false);
 
     // Auth state now comes from global context — no more prop drilling
     const { isLogin, logout } = useAuth();
@@ -30,6 +32,10 @@ function App() {
     const linkColor = isDarkMode ? '#a0a5b1' : '#6c757d';
     const linkHoverColor = isDarkMode ? '#fff' : '#000';
     const globalTextColor = isDarkMode ? 'text-light' : 'text-dark';
+
+    if (!isBackendHealthy) {
+        return <BackendLoader onReady={() => setIsBackendHealthy(true)} />;
+    }
 
     return (
         <div className={`d-flex ${globalTextColor}`} style={{ minHeight: '100vh', backgroundColor: mainBg, transition: 'background-color 0.3s ease' }}>
