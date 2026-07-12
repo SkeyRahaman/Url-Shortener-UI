@@ -9,21 +9,28 @@ const apiClient = axios.create({
   },
 });
 
-// 2. Add the Request Interceptor
+// 2. Request Interceptor — attach Bearer token
 apiClient.interceptors.request.use(
   (config) => {
-    // Retrieve the token from local storage
     const token = localStorage.getItem('token');
-    
-    // If a token exists, attach it to the header
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
     return config;
   },
+  (error) => Promise.reject(error)
+);
+
+// 3. Response Interceptor — handle 401 (expired / invalid token)
+apiClient.interceptors.response.use(
+  (response) => response,
   (error) => {
-    // Handle request errors before they are sent
+    if (error.response && error.response.status === 401) {
+      // Clear stale credentials and send user back to login
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    }
     return Promise.reject(error);
   }
 );

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useLocation, Routes, Route } from "react-router-dom"; 
+import { useLocation, Routes, Route } from "react-router-dom";
 
+import { useAuth } from "./features/auth/AuthProvider";
 import { MobileNavbar, DesktopHeader } from "./components/Headers";
 import Sidebar from "./components/Sidebar";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from './pages/Dashboard';
 import About from './pages/About';
 import Profile from "./pages/Profile";
@@ -12,7 +14,9 @@ import Register from './features/auth/components/Register';
 function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(true);
-    const [isLogin, setIsLogin] = useState(true); // Source of truth for login state
+
+    // Auth state now comes from global context — no more prop drilling
+    const { isLogin, logout } = useAuth();
 
     const location = useLocation();
     const activePage = location.pathname === "/" ? "dashboard" : location.pathname.substring(1);
@@ -36,42 +40,39 @@ function App() {
                 .nav-link:hover { color: ${linkHoverColor}; }
             `}</style>
 
-            <Sidebar 
-                isOpen={isSidebarOpen} 
-                isDarkMode={isDarkMode} 
+            <Sidebar
+                isOpen={isSidebarOpen}
+                isDarkMode={isDarkMode}
                 toggleTheme={toggleTheme}
                 activePage={activePage}
-                isLogin={isLogin}
-                setIsLogin={setIsLogin} /* Pass to Sidebar for Logout button */
             />
 
             <div className="flex-grow-1 d-flex flex-column h-100" style={{ backgroundColor: mainBg, overflowX: 'hidden', transition: 'background-color 0.3s ease' }}>
-                
-                <MobileNavbar 
-                    isDarkMode={isDarkMode} 
-                    isLogin={isLogin} 
-                    setIsLogin={setIsLogin} 
-                />
 
-                <DesktopHeader 
-                    toggleSidebar={toggleSidebar} 
-                    isDarkMode={isDarkMode} 
-                    toggleTheme={toggleTheme} 
-                    activePage={activePage} 
-                    isLogin={isLogin} 
-                    setIsLogin={setIsLogin} 
+                <MobileNavbar isDarkMode={isDarkMode} />
+
+                <DesktopHeader
+                    toggleSidebar={toggleSidebar}
+                    isDarkMode={isDarkMode}
+                    toggleTheme={toggleTheme}
+                    activePage={activePage}
                 />
 
                 <main className="p-4">
                     <Routes>
-                        <Route 
-                            path="/" 
-                            element={<Dashboard isDarkMode={isDarkMode} isLogin={isLogin} setIsLogin={setIsLogin} />} 
-                        />
+                        <Route path="/" element={<Dashboard isDarkMode={isDarkMode} />} />
                         <Route path="/about" element={<About isDarkMode={isDarkMode} />} />
-                        <Route path="/profile" element={<Profile isDarkMode={isDarkMode} />} />
-                        <Route path="/settings" element={<Settings isDarkMode={isDarkMode} />} />
                         <Route path="/register" element={<Register isDarkMode={isDarkMode} />} />
+                        <Route path="/profile" element={
+                            <ProtectedRoute>
+                                <Profile isDarkMode={isDarkMode} />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/settings" element={
+                            <ProtectedRoute>
+                                <Settings isDarkMode={isDarkMode} />
+                            </ProtectedRoute>
+                        } />
                     </Routes>
                 </main>
             </div>

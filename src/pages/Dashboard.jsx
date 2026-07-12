@@ -1,34 +1,29 @@
-import React from "react";
-
-// Updated paths pointing to the URLs feature
+import React, { useRef } from "react";
+import { useAuth } from "../features/auth/AuthProvider";
 import UrlBlock from "../features/urls/components/UrlBlock";
 import UrlList from "../features/urls/components/UrlList";
-
-// Updated paths pointing to the Auth feature
 import LoginPage from "../features/auth/components/Login";
+import { createUrl } from "../features/urls/api";
 
-// 1. Added setIsLogin to the component props
-const Dashboard = ({ isDarkMode, isLogin, setIsLogin }) => {
+const Dashboard = ({ isDarkMode }) => {
+    const { isLogin } = useAuth();
+    // Ref to trigger a list refresh after a new URL is created
+    const listRef = useRef(null);
+
+    const handleUrlCreated = async (url, description) => {
+        return await createUrl(url, description);
+    };
+
     if (isLogin) {
         return (
             <>
-                <UrlBlock isDarkMode={isDarkMode} />
-                <UrlList isDarkMode={isDarkMode} />
-                
-                <div className={`mt-4 ${isDarkMode ? 'text-muted' : 'text-secondary'}`}>
-                    <h5>Welcome to your Dashboard</h5>
-                    <p>Manage your links and view analytics at a glance.</p>
-                </div>
-            </>
-        );
-    } else {
-        return (
-            <>
-                {/* 2. Pass setIsLogin down to LoginPage */}
-                <LoginPage isDarkMode={isDarkMode} setIsLogin={setIsLogin} />
+                <UrlBlock isDarkMode={isDarkMode} onUrlCreated={handleUrlCreated} />
+                <UrlList isDarkMode={isDarkMode} ref={listRef} />
             </>
         );
     }
+
+    return <LoginPage isDarkMode={isDarkMode} />;
 };
 
 export default Dashboard;

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAuth } from "../hooks/useAuth";
+import { loginUser } from '../api';
 
-// --- Sub-Component 1: Social Login Button (Unchanged) ---
 const SocialButton = ({ icon, text, providerColor, isDarkMode, borderColor }) => {
     const [isHovered, setIsHovered] = useState(false);
     const btnStyle = {
@@ -22,7 +24,6 @@ const SocialButton = ({ icon, text, providerColor, isDarkMode, borderColor }) =>
     );
 };
 
-// --- Sub-Component 2: Modern Divider (Unchanged) ---
 const Divider = ({ mutedText, isDarkMode }) => (
     <div className="h-100 d-flex flex-row flex-md-column align-items-center justify-content-center my-4 my-md-0 position-relative">
         <div className="d-none d-md-block h-100" style={{ width: '1px', background: `linear-gradient(transparent, ${isDarkMode ? '#3a3f50' : '#dee2e6'}, transparent)` }}></div>
@@ -31,21 +32,42 @@ const Divider = ({ mutedText, isDarkMode }) => (
     </div>
 );
 
-// --- Sub-Component 3: Enhanced Form (UPDATED) ---
-const LoginForm = ({ isDarkMode, textColor, borderColor, mutedText, setIsLogin }) => {
+
+const LoginForm = ({ isDarkMode, textColor, borderColor }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    
+    // NEW: Add an error state to show login failures
+    const [error, setError] = useState(""); 
+    
+    const { login } = useAuth(); 
+    const navigate = useNavigate();
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        
-        // TEMPORARY TOGGLE:
-        // Simulate a 1-second delay then set global login state to true
-        setTimeout(() => {
+        setError(""); // Clear any old errors
+
+        try {
+            const responseData = await loginUser(username, password);
+            const token = responseData.access_token;
+            const serverUserName = responseData.user_name;
+            login(token, { username: serverUserName });
+            toast.success(`Welcome back, ${serverUserName}!`);
+            navigate("/");
+            
+        } catch (err) {
+            console.error("Login failed:", err);
+            if (err.response && err.response.data && err.response.data.detail) {
+                setError(err.response.data.detail);
+            } else {
+                setError("Invalid username or password. Please try again.");
+            }
+        } finally {
             setIsLoading(false);
-            setIsLogin(true); 
-        }, 1000);
+        }
     };
 
     const inputStyle = {
@@ -57,13 +79,29 @@ const LoginForm = ({ isDarkMode, textColor, borderColor, mutedText, setIsLogin }
 
     return (
         <form onSubmit={handleSignIn}>
+            {/* NEW: Display the error message if one exists */}
+            {error && (
+                <div className="alert alert-danger py-2 small fw-bold text-center border-0 rounded-3 mb-3" style={{ backgroundColor: 'rgba(220, 53, 69, 0.1)', color: '#dc3545' }}>
+                    <i className="bi bi-exclamation-triangle me-2"></i>
+                    {error}
+                </div>
+            )}
+
             <div className="mb-3">
-                <label className={`small fw-bold mb-2 opacity-75 ${textColor}`}>Email Address</label>
+                <label className={`small fw-bold mb-2 opacity-75 ${textColor}`}>Username</label>
                 <div className="input-group">
                     <span className="input-group-text bg-transparent border-end-0" style={{ borderColor: borderColor }}>
-                        <i className="bi bi-envelope text-primary"></i>
+                        <i className="bi bi-person text-primary"></i> 
                     </span>
-                    <input type="email" required className="form-control py-2 shadow-none border-start-0" placeholder="shakib@example.com" style={inputStyle} />
+                    <input 
+                        type="text"
+                        required 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="form-control py-2 shadow-none border-start-0" 
+                        placeholder="shakib123" 
+                        style={inputStyle} 
+                    />
                 </div>
             </div>
             <div className="mb-4">
@@ -75,8 +113,21 @@ const LoginForm = ({ isDarkMode, textColor, borderColor, mutedText, setIsLogin }
                     <span className="input-group-text bg-transparent border-end-0" style={{ borderColor: borderColor }}>
                         <i className="bi bi-shield-lock text-primary"></i>
                     </span>
-                    <input type={showPassword ? "text" : "password"} required className="form-control py-2 shadow-none border-start-0 border-end-0" placeholder="••••••••" style={inputStyle} />
-                    <button type="button" className="input-group-text bg-transparent border-start-0" style={{ borderColor: borderColor, cursor: 'pointer' }} onClick={() => setShowPassword(!showPassword)}>
+                    <input 
+                        type={showPassword ? "text" : "password"} 
+                        required 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="form-control py-2 shadow-none border-start-0 border-end-0" 
+                        placeholder="••••••••" 
+                        style={inputStyle} 
+                    />
+                    <button 
+                        type="button"
+                        className="input-group-text bg-transparent border-start-0" 
+                        style={{ borderColor: borderColor, cursor: 'pointer' }}
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
                         <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'} text-muted`}></i>
                     </button>
                 </div>
@@ -88,8 +139,7 @@ const LoginForm = ({ isDarkMode, textColor, borderColor, mutedText, setIsLogin }
     );
 };
 
-// --- Main App Component (UPDATED) ---
-const LoginPage = ({ isDarkMode = true, setIsLogin }) => {
+const LoginPage = ({ isDarkMode = true }) => {
     const textColor = isDarkMode ? '#ffffff' : '#212529';
     const cardBg = isDarkMode ? '#1a1d24' : '#ffffff';
     const borderColor = isDarkMode ? '#2d333f' : '#e9ecef';
@@ -125,20 +175,14 @@ const LoginPage = ({ isDarkMode = true, setIsLogin }) => {
                         <Divider isDarkMode={isDarkMode} mutedText={mutedText} />
                     </div>
                     <div className="col-12 col-md-5 d-flex flex-column justify-content-center p-md-3">
-                        <LoginForm 
-                            isDarkMode={isDarkMode} 
-                            textColor={textColor} 
-                            borderColor={borderColor} 
-                            mutedText={mutedText}
-                            setIsLogin={setIsLogin} /* Pass setter down to the form */
-                        />
+                        <LoginForm isDarkMode={isDarkMode} textColor={textColor} borderColor={borderColor} />
                     </div>
                 </div>
                 <div className="text-center mt-5 pt-3 border-top" style={{ borderColor: borderColor }}>
                     <p className="small mb-0" style={{ color: mutedText }}>
                         Don't have an account? 
-                        <Link to="/register">
-                        <button className="btn btn-link p-0 fw-bold text-decoration-none small ms-1">Create an account</button>
+                        <Link to="/register" className="btn btn-link p-0 fw-bold text-decoration-none small ms-1" style={{ verticalAlign: 'baseline' }}>
+                            Create an account
                         </Link>
                     </p>
                 </div>
