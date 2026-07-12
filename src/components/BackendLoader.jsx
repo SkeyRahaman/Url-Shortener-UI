@@ -44,9 +44,18 @@ const BackendLoader = ({ onReady }) => {
       if (isChecking) return;
       setIsChecking(true);
       try {
-        // Ping /health endpoint
-        const resp = await axios.get(`${apiUrl}/health`, { timeout: 4000 });
-        if (active && (resp.status === 200 || resp.data?.status === 'HEALTHY')) {
+        // Use native fetch with AbortController for clean health check
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+        const resp = await fetch(`${apiUrl}/health`, {
+          method: 'GET',
+          signal: controller.signal,
+          mode: 'cors'
+        });
+        clearTimeout(timeoutId);
+
+        if (active && resp.ok) {
           onReady();
         }
       } catch (err) {
