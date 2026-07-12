@@ -100,7 +100,7 @@ const LoginForm = ({ isDarkMode, textColor, borderColor }) => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         className="form-control py-2 shadow-none border-start-0" 
-                        placeholder="shakib123" 
+                        placeholder="Enter username" 
                         style={inputStyle} 
                     />
                 </div>
@@ -120,7 +120,7 @@ const LoginForm = ({ isDarkMode, textColor, borderColor }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="form-control py-2 shadow-none border-start-0 border-end-0" 
-                        placeholder="••••••••" 
+                        placeholder="Enter password" 
                         style={inputStyle} 
                     />
                     <button 

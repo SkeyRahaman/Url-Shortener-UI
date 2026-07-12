@@ -87,14 +87,14 @@ const EditProfileModal = ({ isDarkMode, user, onClose, onSaved }) => {
                         <label className="small fw-bold mb-1" style={{ color: textColor }}>Email Address</label>
                         <input type="email" className="form-control shadow-none" value={email}
                                onChange={e => setEmail(e.target.value)} style={inputStyle}
-                               placeholder="new@email.com" />
+                               placeholder="Enter new email address" />
                     </div>
                     <div className="mb-3">
                         <label className="small fw-bold mb-1" style={{ color: textColor }}>New Password <span style={{ color: '#9ca3af', fontWeight: 400 }}>(leave blank to keep current)</span></label>
                         <div className="input-group">
                             <input type={showPw ? "text" : "password"} className="form-control shadow-none border-end-0"
                                    value={password} onChange={e => setPassword(e.target.value)}
-                                   style={inputStyle} placeholder="••••••••" />
+                                   style={inputStyle} placeholder="Enter new password" />
                             <button type="button" className="input-group-text bg-transparent" style={{ borderColor, cursor: 'pointer' }} onClick={() => setShowPw(!showPw)}>
                                 <i className={`bi ${showPw ? 'bi-eye-slash' : 'bi-eye'} text-muted`}></i>
                             </button>
@@ -104,7 +104,7 @@ const EditProfileModal = ({ isDarkMode, user, onClose, onSaved }) => {
                         <label className="small fw-bold mb-1" style={{ color: textColor }}>Confirm New Password</label>
                         <input type="password" className="form-control shadow-none"
                                value={confirm} onChange={e => setConfirm(e.target.value)}
-                               style={inputStyle} placeholder="••••••••" />
+                               style={inputStyle} placeholder="Confirm new password" />
                     </div>
 
                     <div className="d-flex gap-2">

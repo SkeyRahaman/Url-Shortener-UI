@@ -60,7 +60,7 @@ const ChangePasswordCard = ({ isDarkMode, textColor, cardBg, borderColor, mutedT
                         <input type={showPw ? "text" : "password"}
                                className="form-control shadow-none border-end-0"
                                value={newPw} onChange={e => setNewPw(e.target.value)}
-                               style={inputStyle} placeholder="••••••••" />
+                               style={inputStyle} placeholder="Enter new password" />
                         <button type="button" className="input-group-text bg-transparent"
                                 style={{ borderColor, cursor: 'pointer' }}
                                 onClick={() => setShowPw(!showPw)}>
@@ -72,7 +72,7 @@ const ChangePasswordCard = ({ isDarkMode, textColor, cardBg, borderColor, mutedT
                     <label className={`small fw-bold mb-1 ${textColor}`}>Confirm New Password</label>
                     <input type="password" className="form-control shadow-none"
                            value={confirmPw} onChange={e => setConfirm(e.target.value)}
-                           style={inputStyle} placeholder="••••••••" />
+                           style={inputStyle} placeholder="Confirm new password" />
                 </div>
                 <button type="submit" disabled={isLoading}
                         className="btn btn-primary px-4 py-2 fw-bold rounded-3">

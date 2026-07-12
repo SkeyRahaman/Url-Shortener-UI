@@ -103,7 +103,7 @@ const RegisterForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
                     <input type="text" required id="register-username"
                            value={username} onChange={e => setUsername(e.target.value)}
                            className="form-control py-2 shadow-none border-start-0"
-                           placeholder="shakib123" style={inputStyle} />
+                           placeholder="Enter username" style={inputStyle} />
                 </div>
             </div>
 
@@ -117,7 +117,7 @@ const RegisterForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
                     <input type="email" required id="register-email"
                            value={email} onChange={e => setEmail(e.target.value)}
                            className="form-control py-2 shadow-none border-start-0"
-                           placeholder="you@example.com" style={inputStyle} />
+                           placeholder="Enter email address" style={inputStyle} />
                 </div>
             </div>
 
@@ -131,7 +131,7 @@ const RegisterForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
                     <input type={showPassword ? "text" : "password"} required id="register-password"
                            value={password} onChange={e => setPassword(e.target.value)}
                            className="form-control py-2 shadow-none border-start-0 border-end-0"
-                           placeholder="••••••••" style={inputStyle} />
+                           placeholder="Enter password" style={inputStyle} />
                     <button type="button" className="input-group-text bg-transparent border-start-0"
                             style={{ borderColor, cursor: 'pointer' }}
                             onClick={() => setShowPassword(!showPassword)}>
@@ -150,7 +150,7 @@ const RegisterForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
                     <input type={showConfirm ? "text" : "password"} required id="register-confirm-password"
                            value={confirmPassword} onChange={e => setConfirm(e.target.value)}
                            className="form-control py-2 shadow-none border-start-0 border-end-0"
-                           placeholder="••••••••" style={inputStyle} />
+                           placeholder="Confirm password" style={inputStyle} />
                     <button type="button" className="input-group-text bg-transparent border-start-0"
                             style={{ borderColor, cursor: 'pointer' }}
                             onClick={() => setShowConfirm(!showConfirm)}>
