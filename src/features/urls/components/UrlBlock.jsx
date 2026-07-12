@@ -46,8 +46,8 @@ const UrlBlock = ({ isDarkMode, onUrlCreated }) => {
     };
 
     const handleCopy = () => {
-        const baseUrl = import.meta.env.VITE_API_BASE_URL || '';
-        navigator.clipboard.writeText(`${baseUrl}/${result.short_url}`);
+        const baseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+        navigator.clipboard.writeText(`${baseUrl}/urls/${result.short_url}`);
         toast.success('Copied to clipboard!');
     };
 
@@ -67,13 +67,13 @@ const UrlBlock = ({ isDarkMode, onUrlCreated }) => {
                             <i className="bi bi-check-circle me-1"></i>Short URL ready!
                         </div>
                         <a 
-                            href={`${import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com'}/${result.short_url}`}
+                            href={`${(import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com').replace(/\/+$/, '')}/urls/${result.short_url}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="fw-bold text-decoration-none"
                             style={{ color: '#3b82f6', fontSize: '0.95rem', wordBreak: 'break-all' }}
                         >
-                            {import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com'}/{result.short_url}
+                            {(import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com').replace(/\/+$/, '')}/urls/{result.short_url}
                         </a>
                     </div>
                     <button onClick={handleCopy}

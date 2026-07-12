@@ -96,8 +96,8 @@ const UrlList = ({ isDarkMode }) => {
     };
 
     const handleCopy = (shortUrl) => {
-        const base = import.meta.env.VITE_API_BASE_URL || '';
-        navigator.clipboard.writeText(`${base}/${shortUrl}`);
+        const base = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+        navigator.clipboard.writeText(`${base}/urls/${shortUrl}`);
         toast.success('Copied to clipboard!');
     };
 
@@ -181,7 +181,7 @@ const UrlList = ({ isDarkMode }) => {
 
                             <div className="col-12 col-md-3 order-1 order-md-2 mb-1 mb-md-0 d-flex align-items-center gap-2">
                                 <a 
-                                    href={`${import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com'}/${item.short_url}`}
+                                    href={`${(import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com').replace(/\/+$/, '')}/urls/${item.short_url}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="fw-bold short-link-text text-decoration-none"
