@@ -179,7 +179,7 @@ const UrlList = ({ isDarkMode }) => {
                                     {item.long_url}
                                 </div>
                                 {item.description && (
-                                    <div className="small text-truncate mt-1 text-muted" style={{ fontSize: '0.78rem' }} title={item.description}>
+                                    <div className="small text-truncate mt-1" style={{ color: isDarkMode ? '#a0a5b1' : '#6c757d', fontSize: '0.78rem' }} title={item.description}>
                                         {item.description}
                                     </div>
                                 )}
