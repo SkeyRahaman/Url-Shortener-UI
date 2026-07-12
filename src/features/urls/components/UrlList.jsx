@@ -174,9 +174,15 @@ const UrlList = ({ isDarkMode }) => {
                         <div key={item.short_url}
                              className={`d-flex flex-column flex-md-row align-items-md-center py-3 px-2 px-md-3 url-row ${textColor}`}>
 
-                            <div className="col-12 col-md-5 order-2 order-md-1 pe-md-4 original-link-text truncate-md"
-                                 style={{ color: mutedText }}>
-                                {item.long_url}
+                            <div className="col-12 col-md-5 order-2 order-md-1 pe-md-4 original-link-text truncate-md">
+                                <div className="text-truncate" style={{ color: isDarkMode ? '#ffffff' : '#212529', fontWeight: '500' }}>
+                                    {item.long_url}
+                                </div>
+                                {item.description && (
+                                    <div className="small text-truncate mt-1 text-muted" style={{ fontSize: '0.78rem' }} title={item.description}>
+                                        {item.description}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="col-12 col-md-3 order-1 order-md-2 mb-1 mb-md-0 d-flex align-items-center gap-2">
