@@ -36,6 +36,11 @@ const About = ({ isDarkMode }) => {
 
     return (
         <div className="w-100">
+            <style>{`
+                .hover-link { color: ${mutedText} !important; transition: color 0.2s ease, padding-left 0.2s ease; }
+                .hover-link:hover { color: #3b82f6 !important; padding-left: 4px; }
+            `}</style>
+
             <AboutHero 
                 glowStyle={glowStyle} 
                 textColor={textColor} 
@@ -72,6 +77,59 @@ const About = ({ isDarkMode }) => {
                     mutedText={mutedText}
                     isFullWidth={true}
                 />
+            </div>
+
+            {/* Developer links */}
+            <div className="mt-5 pt-4 border-top" style={{ borderColor: borderColor }}>
+                <h4 className={`fw-bold mb-4 ${textColor}`}>
+                    <i className="bi bi-terminal me-2 text-primary"></i>For Developers
+                </h4>
+                <div className="row g-3">
+                    <div className="col-12 col-md-4">
+                        <div className="p-3 rounded-3 h-100" style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}>
+                            <div className="fw-bold mb-2 small text-uppercase text-primary" style={{ letterSpacing: '0.5px' }}>Team & Contact</div>
+                            <div className="d-flex flex-column gap-2">
+                                <a href="https://github.com/SkeyRahaman" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-github"></i> <span>GitHub Profile</span>
+                                </a>
+                                <a href="https://www.linkedin.com/in/shakib-mondal/" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-linkedin"></i> <span>LinkedIn Profile</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                        <div className="p-3 rounded-3 h-100" style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}>
+                            <div className="fw-bold mb-2 small text-uppercase text-primary" style={{ letterSpacing: '0.5px' }}>Source Code</div>
+                            <div className="d-flex flex-column gap-2">
+                                <a href="https://github.com/SkeyRahaman/Url-Shortener-UI" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-git"></i> <span>Frontend Repository</span>
+                                </a>
+                                <a href="https://github.com/SkeyRahaman/URL_Shortner" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-git"></i> <span>Backend Repository</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                        <div className="p-3 rounded-3 h-100" style={{ backgroundColor: cardBg, border: `1px solid ${borderColor}` }}>
+                            <div className="fw-bold mb-2 small text-uppercase text-primary" style={{ letterSpacing: '0.5px' }}>Documentation</div>
+                            <div className="d-flex flex-column gap-2">
+                                <a href="https://url-shortner-ergb.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-file-earmark-code"></i> <span>Backend Swagger API Docs</span>
+                                </a>
+                                <a href="https://github.com/SkeyRahaman/Url-Shortener-UI#readme" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-book"></i> <span>Frontend README Docs</span>
+                                </a>
+                                <a href="https://github.com/SkeyRahaman/URL_Shortner#readme" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-book"></i> <span>Backend README Docs</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
