@@ -16,12 +16,29 @@ const BackendLoader = ({ onReady }) => {
   const [timeLeft, setTimeLeft] = useState(45);
   const [jokeIndex, setJokeIndex] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+
+  const [isDarkMode] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved === 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com';
   // Remove trailing slashes to avoid double slashes like //docs
   const cleanApiUrl = apiUrl.replace(/\/+$/, '');
   const healthUrl = `${cleanApiUrl}/docs`;
+
+  const pageBg = isDarkMode ? '#0f1116' : '#f4f7fa';
+  const textColor = isDarkMode ? '#ffffff' : '#212529';
+  const mutedTextColor = isDarkMode ? '#9ca3af' : '#6c757d';
+  
+  const cardBg = isDarkMode ? '#1a1d24' : '#ffffff';
+  const cardBorder = isDarkMode ? '#2d333f' : '#e9ecef';
+  
+  const progressTrackBg = isDarkMode ? '#1a1d24' : '#e9ecef';
+  const progressTrackBorder = isDarkMode ? '#2d333f' : '#dee2e6';
+  
+  const jokeQColor = isDarkMode ? '#f8f9fa' : '#212529';
 
   // 1. Countdown timer
   useEffect(() => {
@@ -87,7 +104,7 @@ const BackendLoader = ({ onReady }) => {
   const progressPercent = Math.max(0, Math.min(100, ((45 - timeLeft) / 45) * 100));
 
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 p-4" style={{ backgroundColor: '#0f1116', color: '#ffffff' }}>
+    <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 p-4" style={{ backgroundColor: pageBg, color: textColor, transition: 'background-color 0.3s ease, color 0.3s ease' }}>
       <div className="text-center" style={{ maxWidth: '500px', width: '100%' }}>
         
         {/* Pulsing Link/Loader Icon */}
@@ -96,19 +113,19 @@ const BackendLoader = ({ onReady }) => {
           height: '80px',
           background: 'linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%)',
           borderRadius: '24px',
-          boxShadow: '0 0 30px rgba(13, 110, 253, 0.4)',
+          boxShadow: isDarkMode ? '0 0 30px rgba(13, 110, 253, 0.4)' : '0 0 20px rgba(13, 110, 253, 0.15)',
           animation: 'pulse 2s infinite ease-in-out'
         }}>
           <i className="bi bi-cpu-fill text-white fs-1" style={{ animation: 'spin 4s linear infinite' }}></i>
         </div>
 
         <h3 className="fw-bold mb-2" style={{ letterSpacing: '-0.5px' }}>Waking up the server...</h3>
-        <p className="text-muted small mb-4 px-3">
+        <p className="small mb-4 px-3" style={{ color: mutedTextColor }}>
           Our API is hosted on a free platform. It falls asleep after 15 minutes of inactivity and can take up to 45 seconds to spin back up. Thanks for your patience!
         </p>
 
         {/* Progress Bar Container */}
-        <div className="bg-dark rounded-pill p-1 mb-4" style={{ height: '14px', border: '1px solid #2d333f' }}>
+        <div className="rounded-pill p-1 mb-4" style={{ height: '14px', border: `1px solid ${progressTrackBorder}`, backgroundColor: progressTrackBg }}>
           <div 
             className="h-100 rounded-pill" 
             style={{ 
@@ -126,8 +143,8 @@ const BackendLoader = ({ onReady }) => {
 
         {/* Rotating Lame Joke Board */}
         <div className="p-4 rounded-4 mb-4" style={{ 
-          backgroundColor: '#1a1d24', 
-          border: '1px solid #2d333f', 
+          backgroundColor: cardBg, 
+          border: `1px solid ${cardBorder}`, 
           minHeight: '120px',
           display: 'flex',
           flexDirection: 'column',
@@ -136,7 +153,7 @@ const BackendLoader = ({ onReady }) => {
           <div className="text-primary small fw-semibold text-uppercase mb-2" style={{ letterSpacing: '1px', fontSize: '0.75rem' }}>
             While we wait, enjoy a lame developer joke:
           </div>
-          <div className="fw-bold mb-1" style={{ fontSize: '1rem', color: '#f8f9fa' }}>
+          <div className="fw-bold mb-1" style={{ fontSize: '1rem', color: jokeQColor }}>
             "{JOKES[jokeIndex].q}"
           </div>
           <div className="text-success small fw-semibold mt-1">

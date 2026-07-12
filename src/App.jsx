@@ -16,7 +16,8 @@ function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const saved = localStorage.getItem('theme');
-        return saved ? saved === 'dark' : true;
+        if (saved) return saved === 'dark';
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     });
     const [isBackendHealthy, setIsBackendHealthy] = useState(false);
 
