@@ -19,6 +19,9 @@ const BackendLoader = ({ onReady }) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const apiUrl = import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com';
+  // Remove trailing slashes to avoid double slashes like //health
+  const cleanApiUrl = apiUrl.replace(/\/+$/, '');
+  const healthUrl = `${cleanApiUrl}/health`;
 
   // 1. Countdown timer
   useEffect(() => {
@@ -44,22 +47,26 @@ const BackendLoader = ({ onReady }) => {
       if (isChecking) return;
       setIsChecking(true);
       try {
+        console.log(`[Healthcheck] Pinging: ${healthUrl}`);
         // Use native fetch with AbortController for clean health check
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-        const resp = await fetch(`${apiUrl}/health`, {
+        const resp = await fetch(healthUrl, {
           method: 'GET',
           signal: controller.signal,
           mode: 'cors'
         });
         clearTimeout(timeoutId);
 
+        console.log(`[Healthcheck] Status: ${resp.status} (${resp.statusText})`);
+
         if (active && resp.ok) {
+          console.log("[Healthcheck] Backend is healthy! Proceeding.");
           onReady();
         }
       } catch (err) {
-        console.log("Waiting for backend to wake up...", err.message);
+        console.error("[Healthcheck] Verification failed:", err);
       } finally {
         if (active) setIsChecking(false);
       }
