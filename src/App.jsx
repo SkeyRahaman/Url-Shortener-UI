@@ -14,7 +14,10 @@ import BackendLoader from "./components/BackendLoader";
 
 function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const saved = localStorage.getItem('theme');
+        return saved ? saved === 'dark' : true;
+    });
     const [isBackendHealthy, setIsBackendHealthy] = useState(false);
 
     // Auth state now comes from global context — no more prop drilling
@@ -24,7 +27,13 @@ function App() {
     const activePage = location.pathname === "/" ? "dashboard" : location.pathname.substring(1);
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-    const toggleTheme = () => setIsDarkMode(!isDarkMode);
+    const toggleTheme = () => {
+        setIsDarkMode(prev => {
+            const next = !prev;
+            localStorage.setItem('theme', next ? 'dark' : 'light');
+            return next;
+        });
+    };
 
     const mainBg = isDarkMode ? '#1a1d24' : '#f4f6f9';
     const activeItemBg = isDarkMode ? '#323644' : '#e9ecef';
