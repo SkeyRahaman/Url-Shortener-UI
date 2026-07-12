@@ -5,21 +5,22 @@ import { useAuth } from "../hooks/useAuth";
 import { loginUser } from '../api';
 
 const SocialButton = ({ icon, text, providerColor, isDarkMode, borderColor }) => {
-    const [isHovered, setIsHovered] = useState(false);
     const btnStyle = {
         border: `1px solid ${borderColor}`,
-        backgroundColor: isDarkMode 
-            ? (isHovered ? '#2d333f' : '#1a1d24') 
-            : (isHovered ? '#f8f9fa' : '#ffffff'),
-        color: isDarkMode ? '#ffffff' : '#212529',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
-        boxShadow: isHovered ? '0 4px 12px rgba(0,0,0,0.1)' : 'none'
+        backgroundColor: isDarkMode ? '#1a1d24' : '#ffffff',
+        color: isDarkMode ? '#a0a5b1' : '#6c757d',
+        opacity: 0.5,
+        filter: 'grayscale(1)',
+        cursor: 'not-allowed',
+        position: 'relative'
     };
     return (
-        <button className="btn d-flex align-items-center justify-content-center gap-3 py-2 px-4 shadow-none w-100 mb-3" style={btnStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-            <i className={`bi ${icon}`} style={{ color: providerColor, fontSize: '1.2rem' }}></i>
+        <button className="btn d-flex align-items-center gap-2 py-2 px-3 shadow-none w-100 mb-3" style={btnStyle} disabled>
+            <i className={`bi ${icon}`} style={{ fontSize: '1.2rem' }}></i>
             <span className="fw-semibold small">{text}</span>
+            <span className="badge bg-secondary-subtle text-secondary border border-secondary-subtle ms-auto text-uppercase fw-bold" style={{ fontSize: '0.6rem' }}>
+                Soon
+            </span>
         </button>
     );
 };
