@@ -120,11 +120,11 @@ const About = ({ isDarkMode }) => {
                                 <a href="https://url-shortner-ergb.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
                                     <i className="bi bi-file-earmark-code"></i> <span>Backend Swagger API Docs</span>
                                 </a>
-                                <a href="https://github.com/SkeyRahaman/Url-Shortener-UI#readme" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
-                                    <i className="bi bi-book"></i> <span>Frontend README Docs</span>
+                                <a href="https://skeyrahaman.github.io/Url-Shortener-UI/" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-book"></i> <span>Frontend Hosted Docs</span>
                                 </a>
-                                <a href="https://github.com/SkeyRahaman/URL_Shortner#readme" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
-                                    <i className="bi bi-book"></i> <span>Backend README Docs</span>
+                                <a href="https://skeyrahaman.github.io/URL_Shortner/" target="_blank" rel="noopener noreferrer" className="text-decoration-none d-flex align-items-center gap-2 text-reset hover-link">
+                                    <i className="bi bi-book"></i> <span>Backend Hosted Docs</span>
                                 </a>
                             </div>
                         </div>
