@@ -66,9 +66,15 @@ const UrlBlock = ({ isDarkMode, onUrlCreated }) => {
                         <div className="small fw-bold mb-1" style={{ color: '#22c55e' }}>
                             <i className="bi bi-check-circle me-1"></i>Short URL ready!
                         </div>
-                        <span className="fw-bold" style={{ color: '#3b82f6', fontSize: '0.95rem', wordBreak: 'break-all' }}>
-                            {import.meta.env.VITE_API_BASE_URL}/{result.short_url}
-                        </span>
+                        <a 
+                            href={`${import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com'}/${result.short_url}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="fw-bold text-decoration-none"
+                            style={{ color: '#3b82f6', fontSize: '0.95rem', wordBreak: 'break-all' }}
+                        >
+                            {import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com'}/{result.short_url}
+                        </a>
                     </div>
                     <button onClick={handleCopy}
                             className="btn btn-outline-success btn-sm fw-bold rounded-3 flex-shrink-0"

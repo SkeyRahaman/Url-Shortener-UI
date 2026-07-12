@@ -179,8 +179,19 @@ const UrlList = ({ isDarkMode }) => {
                                 {item.long_url}
                             </div>
 
-                            <div className="col-12 col-md-3 order-1 order-md-2 mb-1 mb-md-0">
-                                <span className="fw-bold short-link-text">{item.short_url}</span>
+                            <div className="col-12 col-md-3 order-1 order-md-2 mb-1 mb-md-0 d-flex align-items-center gap-2">
+                                <a 
+                                    href={`${import.meta.env.VITE_API_BASE_URL || 'https://url-shortner-ergb.onrender.com'}/${item.short_url}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="fw-bold short-link-text text-decoration-none"
+                                >
+                                    {item.short_url}
+                                </a>
+                                <i className="bi bi-copy action-icon text-muted"
+                                   style={{ fontSize: '0.85rem', cursor: 'pointer' }}
+                                   title="Copy short URL"
+                                   onClick={() => handleCopy(item.short_url)}></i>
                             </div>
 
                             <div className="col-12 col-md-4 order-3 mobile-action-separator">
