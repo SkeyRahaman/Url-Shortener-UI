@@ -1,48 +1,52 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-
+import { useBackendStatus } from '../../../context/BackendStatusContext';
+ 
 const UrlBlock = ({ isDarkMode, onUrlCreated }) => {
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState(null);   // holds { short_url, long_url } on success
-
+    const { executeWithBackend } = useBackendStatus();
+ 
     const containerBg = isDarkMode ? '#1a1d24' : '#ffffff';
     const inputBg     = isDarkMode ? '#212530' : '#f4f6f9';
     const textColor   = isDarkMode ? 'text-white' : 'text-dark';
     const placeholderColor = isDarkMode ? '#9ca3af' : '#6c757d';
     const borderColor = isDarkMode ? '#3a3f50' : '#dee2e6';
-
+ 
     const glowStyle = {
         backgroundColor: containerBg,
         border: '2px solid #3b82f6',
         boxShadow: '0 0 15px rgba(59, 130, 246, 0.4)',
     };
-
+ 
     const inputStyle = {
         backgroundColor: inputBg,
         borderRadius: '8px',
         border: `1px solid ${borderColor}`,
         color: isDarkMode ? '#fff' : '#212529',
     };
-
-    const handleSubmit = async (e) => {
+ 
+    const handleSubmit = (e) => {
         e.preventDefault();
         if (!url.trim()) return;
-        setIsLoading(true);
-        setResult(null);
-        try {
-            const data = await onUrlCreated(url.trim(), description.trim());
-            setResult(data);
-            setUrl('');
-            setDescription('');
-            toast.success('URL shortened successfully!');
-        } catch (err) {
-            const msg = err?.response?.data?.detail || 'Failed to shorten URL.';
-            toast.error(msg);
-        } finally {
-            setIsLoading(false);
-        }
+        executeWithBackend(async () => {
+            setIsLoading(true);
+            setResult(null);
+            try {
+                const data = await onUrlCreated(url.trim(), description.trim());
+                setResult(data);
+                setUrl('');
+                setDescription('');
+                toast.success('URL shortened successfully!');
+            } catch (err) {
+                const msg = err?.response?.data?.detail || 'Failed to shorten URL.';
+                toast.error(msg);
+            } finally {
+                setIsLoading(false);
+            }
+        });
     };
 
     const handleCopy = () => {

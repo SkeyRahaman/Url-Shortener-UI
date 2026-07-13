@@ -10,8 +10,6 @@ import About from './pages/About';
 import Profile from "./pages/Profile";
 import Settings from './pages/Settings';
 import Register from './features/auth/components/Register';
-import BackendLoader from "./components/BackendLoader";
-
 function App() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -19,7 +17,6 @@ function App() {
         if (saved) return saved === 'dark';
         return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     });
-    const [isBackendHealthy, setIsBackendHealthy] = useState(false);
 
     // Auth state now comes from global context — no more prop drilling
     const { isLogin, logout } = useAuth();
@@ -43,10 +40,6 @@ function App() {
     const linkHoverColor = isDarkMode ? '#fff' : '#000';
     const globalTextColor = isDarkMode ? 'text-light' : 'text-dark';
 
-    if (!isBackendHealthy) {
-        return <BackendLoader onReady={() => setIsBackendHealthy(true)} />;
-    }
-
     return (
         <div className={`d-flex ${globalTextColor}`} style={{ minHeight: '100vh', backgroundColor: mainBg, transition: 'background-color 0.3s ease' }}>
             <style>{`
@@ -54,6 +47,10 @@ function App() {
                 .nav-pills .nav-link.active { background-color: ${activeItemBg}; color: ${activeItemColor}; }
                 .nav-link { color: ${linkColor}; }
                 .nav-link:hover { color: ${linkHoverColor}; }
+                input::placeholder, textarea::placeholder {
+                    color: ${isDarkMode ? '#9ca3af' : '#6c757d'} !important;
+                    opacity: 0.65 !important;
+                }
             `}</style>
 
             <Sidebar

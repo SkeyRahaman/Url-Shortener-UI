@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useBackendStatus } from "../../../context/BackendStatusContext";
 import { registerUser } from "../../users/api";
 
 // ─── Social Button ─────────────────────────────────────────────────────────────
@@ -47,6 +48,7 @@ const RegisterForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
     const [showConfirm, setShowConfirm]   = useState(false);
     const [isLoading, setIsLoading]       = useState(false);
     const [error, setError]               = useState('');
+    const { executeWithBackend }          = useBackendStatus();
     const navigate = useNavigate();
 
     const inputStyle = {
@@ -56,7 +58,7 @@ const RegisterForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
         fontSize: '0.95rem',
     };
 
-    const handleSignUp = async (e) => {
+    const handleSignUp = (e) => {
         e.preventDefault();
         setError('');
 
@@ -65,23 +67,25 @@ const RegisterForm = ({ isDarkMode, textColor, borderColor, mutedText }) => {
             return;
         }
 
-        setIsLoading(true);
-        try {
-            await registerUser({ user_name: username, email, password });
-            toast.success('Account created! Please sign in.');
-            navigate('/');
-        } catch (err) {
-            const detail = err?.response?.data?.detail;
-            if (err?.response?.status === 409) {
-                setError('Username or email is already taken.');
-            } else if (typeof detail === 'string') {
-                setError(detail);
-            } else {
-                setError('Registration failed. Please try again.');
+        executeWithBackend(async () => {
+            setIsLoading(true);
+            try {
+                await registerUser({ user_name: username, email, password });
+                toast.success('Account created! Please sign in.');
+                navigate('/');
+            } catch (err) {
+                const detail = err?.response?.data?.detail;
+                if (err?.response?.status === 409) {
+                    setError('Username or email is already taken.');
+                } else if (typeof detail === 'string') {
+                    setError(detail);
+                } else {
+                    setError('Registration failed. Please try again.');
+                }
+            } finally {
+                setIsLoading(false);
             }
-        } finally {
-            setIsLoading(false);
-        }
+        });
     };
 
     return (

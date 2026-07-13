@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
+import { useBackendStatus } from "../../../context/BackendStatusContext";
 import { loginUser } from '../api';
-
+ 
 const SocialButton = ({ icon, text, providerColor, isDarkMode, borderColor }) => {
     const btnStyle = {
         border: `1px solid ${borderColor}`,
@@ -29,7 +30,7 @@ const Divider = ({ mutedText, isDarkMode }) => (
     <div className="h-100 d-flex flex-row flex-md-column align-items-center justify-content-center my-4 my-md-0 position-relative">
         <div className="d-none d-md-block h-100" style={{ width: '1px', background: `linear-gradient(transparent, ${isDarkMode ? '#3a3f50' : '#dee2e6'}, transparent)` }}></div>
         <div className="d-md-none w-100" style={{ height: '1px', background: `linear-gradient(90deg, transparent, ${isDarkMode ? '#3a3f50' : '#dee2e6'}, transparent)` }}></div>
-        <span className="px-3 py-2 fw-bold small text-uppercase z-1 position-absolute bg-inherit" style={{ color: mutedText, backgroundColor: 'inherit', letterSpacing: '1px', fontSize: '0.7rem' }}>OR</span>
+        <span className="px-3 py-2 fw-bold small text-uppercase z-1 position-absolute bg-inherit" style={{ color: mutedText, backgroundColor: 'inherit', letterSpacing: '1px', fontSize: '0.75rem' }}>OR</span>
     </div>
 );
 
@@ -44,31 +45,34 @@ const LoginForm = ({ isDarkMode, textColor, borderColor }) => {
     const [error, setError] = useState(""); 
     
     const { login } = useAuth(); 
+    const { executeWithBackend } = useBackendStatus();
     const navigate = useNavigate();
 
-    const handleSignIn = async (e) => {
+    const handleSignIn = (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        setError(""); // Clear any old errors
+        executeWithBackend(async () => {
+            setIsLoading(true);
+            setError(""); // Clear any old errors
 
-        try {
-            const responseData = await loginUser(username, password);
-            const token = responseData.access_token;
-            const serverUserName = responseData.user_name;
-            login(token, { username: serverUserName });
-            toast.success(`Welcome back, ${serverUserName}!`);
-            navigate("/");
-            
-        } catch (err) {
-            console.error("Login failed:", err);
-            if (err.response && err.response.data && err.response.data.detail) {
-                setError(err.response.data.detail);
-            } else {
-                setError("Invalid username or password. Please try again.");
+            try {
+                const responseData = await loginUser(username, password);
+                const token = responseData.access_token;
+                const serverUserName = responseData.user_name;
+                login(token, { username: serverUserName });
+                toast.success(`Welcome back, ${serverUserName}!`);
+                navigate("/");
+                
+            } catch (err) {
+                console.error("Login failed:", err);
+                if (err.response && err.response.data && err.response.data.detail) {
+                    setError(err.response.data.detail);
+                } else {
+                    setError("Invalid username or password. Please try again.");
+                }
+            } finally {
+                setIsLoading(false);
             }
-        } finally {
-            setIsLoading(false);
-        }
+        });
     };
 
     const inputStyle = {
